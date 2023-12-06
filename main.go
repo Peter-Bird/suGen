@@ -15,6 +15,7 @@ import (
 	"suDir/src/pkg/gotree"
 	"suDir/src/pkg/intern"
 	"suDir/src/pkg/license"
+	"suDir/src/pkg/readme"
 	"suDir/src/pkg/scripts"
 	"suDir/src/pkg/shortcuts"
 	"suDir/src/pkg/source"
@@ -67,26 +68,44 @@ func buildApp(name string, output *widget.Entry) error {
 	actions := getActions(path, name)
 	execChecked(selected, actions)
 
-	gomod.GoImports(path)
-	outputMsg("- Imports Cleared!\n")
+	if Contains(selected, "mod") {
+		gomod.GoImports(path)
+		outputMsg("- Imports Cleared!\n")
 
-	gomod.GoModTidy(path)
-	outputMsg("- Modules tidied!\n")
+		gomod.GoModTidy(path)
+		outputMsg("- Modules tidied!\n")
 
-	// gomod.GoModVendor(path)
-	// outputMsg("- Modules Vendored!\n")
-
-	if err := git.InitRepo(path); err != nil {
-		log.Fatalf("Error initializing git: %s", err)
+		if Contains(selected, "vendor") {
+			gomod.GoModVendor(path)
+			outputMsg("- Modules Vendored!\n")
+		}
 	}
-	outputMsg("- Git Initialized!\n")
 
-	compile.Compiler(path, name, outputMsg)
-	outputMsg("- Application Compiled!\n\n")
+	if Contains(selected, "git") {
+		if err := git.InitRepo(path); err != nil {
+			log.Fatalf("Error initializing git: %s", err)
+		}
+		outputMsg("- Git Initialized!\n")
+	}
+
+	if Contains(selected, "bin") {
+		compile.Compiler(path, name, outputMsg)
+		outputMsg("- Application Compiled!\n\n")
+	}
 
 	outputMsg("Completed Succesfully")
 
 	return nil
+}
+
+// Contains checks if a string is present in a slice.
+func Contains(slice []string, str string) bool {
+	for _, v := range slice {
+		if v == str {
+			return true
+		}
+	}
+	return false
 }
 
 func getActions(path, name string) map[string]func() {
@@ -95,10 +114,9 @@ func getActions(path, name string) map[string]func() {
 		"mod":       func() { appGen(&gomod.Gomod{}, path, name) },
 		"bin":       func() { appGen(&compile.Compile{}, path, name) },
 		"source":    func() { appGen(&source.Source{}, path, name) },
-		"vscode":    func() { appGen(&vscode.Vscode{}, path, name) },
 		"git":       func() { appGen(&git.Git{}, path, name) },
+		"vscode":    func() { appGen(&vscode.Vscode{}, path, name) },
 		"github":    func() { appGen(&github.Github{}, path, name) },
-		"vendor":    func() { appGen(&vendors.Vendors{}, path, name) },
 		"docker":    func() { appGen(&docker.Docker{}, path, name) },
 		"documents": func() { appGen(&docs.Docs{}, path, name) },
 		"shortcuts": func() { appGen(&shortcuts.Shortcuts{}, path, name) },
@@ -108,6 +126,8 @@ func getActions(path, name string) map[string]func() {
 		"internal":  func() { appGen(&intern.Intern{}, path, name) },
 		"scripts":   func() { appGen(&scripts.Scripts{}, path, name) },
 		"license":   func() { appGen(&license.License{}, path, name) },
+		"readme":    func() { appGen(&readme.Readme{}, path, name) },
+		"vendor":    func() { appGen(&vendors.Vendors{}, path, name) },
 	}
 }
 
