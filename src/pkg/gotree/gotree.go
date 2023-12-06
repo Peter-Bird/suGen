@@ -3,26 +3,9 @@ package gotree
 import (
 	"fmt"
 	"io"
+	"log"
 	"os"
-	"path/filepath"
-	"suDir/src/pkg/source"
 )
-
-// DefaultDirectories returns a slice of default directory paths based on a
-// provided base directory name.
-func DefaultDirectories(path string) []string {
-	return []string{
-		filepath.Join(path, ""),
-		filepath.Join(path, "bin"),
-	}
-}
-
-func GetFilesToCreate(path, name string) map[string]string {
-	return map[string]string{
-		path + "/main.go": source.GenMain(),
-		path + "/gui.go":  source.GenGui(),
-	}
-}
 
 // CheckDirExists:
 // - Verifies if a directory exists.
@@ -52,6 +35,14 @@ func CreateDirs(dirs []string, perm os.FileMode, logger func(string)) error {
 		logger(fmt.Sprintf("- Directory %s created.\n", dir))
 	}
 	return nil
+}
+
+func CreateFiles(files map[string]string, logger func(string)) {
+	for fileName, content := range files {
+		if err := MakeFile(fileName, content, logger); err != nil {
+			log.Fatalf("Error creating or writing to file %s: %s", fileName, err)
+		}
+	}
 }
 
 func MakeFile(fileName, content string, logger func(string)) error {

@@ -13,11 +13,14 @@ func (s *Source) GetDirs(path string) []string {
 }
 
 // GetFiles returns a map of source files and functions
-func (s *Source) GetFiles(dirName, name string) map[string]string {
-	return map[string]string{}
+func (s *Source) GetFiles(path, name string) map[string]string {
+	return map[string]string{
+		path + "/main.go": s.GenMain(),
+		path + "/gui.go":  s.GenGui(),
+	}
 }
 
-func GenMain() string {
+func (s *Source) GenMain() string {
 
 	temp := `package main
 
@@ -77,7 +80,7 @@ func GenMain() string {
 	return temp
 }
 
-func GenGui() string {
+func (s *Source) GenGui() string {
 
 	temp := `package main
 
