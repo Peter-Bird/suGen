@@ -5,7 +5,6 @@ import (
 	"io"
 	"os"
 	"path/filepath"
-	"suDir/src/pkg/gomod"
 	"suDir/src/pkg/source"
 )
 
@@ -20,7 +19,6 @@ func DefaultDirectories(path string) []string {
 
 func GetFilesToCreate(path, name string) map[string]string {
 	return map[string]string{
-		path + "/go.mod":  gomod.GenGomod(name),
 		path + "/main.go": source.GenMain(),
 		path + "/gui.go":  source.GenGui(),
 	}

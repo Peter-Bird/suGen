@@ -1,14 +1,10 @@
 package main
 
 import (
-	"bufio"
-	"bytes"
 	"fmt"
 	"log"
-	"os/exec"
-	"regexp"
-	"strings"
 	"suDir/src/pkg/assets"
+	"suDir/src/pkg/compile"
 	"suDir/src/pkg/config"
 	"suDir/src/pkg/docker"
 	"suDir/src/pkg/docs"
@@ -88,7 +84,7 @@ func buildApp(name string, output *widget.Entry) error {
 	}
 	outputMsg("- Git Initialized!\n")
 
-	compile(path, name)
+	compile.Compiler(path, name, outputMsg)
 	outputMsg("- Application Compiled!\n\n")
 
 	selected := getSelectedCheckboxes(checkboxes)
@@ -121,6 +117,8 @@ func getActions(path, name string) map[string]func() {
 		"scripts":   func() { appGen(&scripts.Scripts{}, path, name) },
 		"source":    func() { appGen(&source.Source{}, path, name) },
 		"license":   func() { appGen(&license.License{}, path, name) },
+		"gomod":     func() { appGen(&gomod.Gomod{}, path, name) },
+		"bin":       func() { appGen(&compile.Compile{}, path, name) },
 	}
 }
 
@@ -130,44 +128,6 @@ func createFiles(files map[string]string) {
 			log.Fatalf("Error creating or writing to file %s: %s", fileName, err)
 		}
 	}
-}
-
-func compile(path, name string) error {
-
-	outputPath := path + "/bin/" + name
-	cmd := exec.Command("go", "build", "-o", outputPath, path)
-	cmd.Dir = path
-
-	var stderr bytes.Buffer
-	cmd.Stderr = &stderr
-	err := cmd.Run()
-	if err != nil {
-		return analyzeBuildError(stderr.String())
-	}
-
-	outputMsg(fmt.Sprintf("- Application Compiled: %s\n", outputPath))
-	return nil
-}
-
-func analyzeBuildError(stderr string) error {
-	scanner := bufio.NewScanner(strings.NewReader(stderr))
-	for scanner.Scan() {
-		line := scanner.Text()
-		re := regexp.MustCompile(`no required module provides package ([^;]+)`)
-		matches := re.FindStringSubmatch(line)
-		if len(matches) > 1 {
-			missingModule := matches[1]
-			if err := installMissingModule(missingModule); err != nil {
-				return fmt.Errorf("failed to install missing module %s: %w", missingModule, err)
-			}
-		}
-	}
-	return scanner.Err()
-}
-
-func installMissingModule(module string) error {
-	getCmd := exec.Command("go", "get", module)
-	return getCmd.Run()
 }
 
 // Step 3: Function to Execute Relevant Functions for Checked Checkboxes

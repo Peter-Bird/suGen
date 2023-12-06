@@ -42,6 +42,7 @@ func CreateWindow() {
 		widget.NewCheck("env", func(checked bool) {}),
 		widget.NewCheck("readme", func(checked bool) {}),
 		widget.NewCheck("license", func(checked bool) {}),
+		widget.NewCheck("gomod", func(checked bool) {}),
 	}
 
 	// Adding checkboxes to a grid
