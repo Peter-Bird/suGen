@@ -1,6 +1,18 @@
 package readme
 
-func GenReadme() string {
+type Readme struct{}
+
+func (r *Readme) GetDirs(path string) []string {
+	return []string{}
+}
+
+func (r *Readme) GetFiles(path, name string) map[string]string {
+	return map[string]string{
+		path + "/README.md": r.genReadme(),
+	}
+}
+
+func (r *Readme) genReadme() string {
 
 	return `# Project Title
 
