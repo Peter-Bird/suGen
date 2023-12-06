@@ -9,6 +9,7 @@ import (
 	"suDir/src/pkg/config"
 	"suDir/src/pkg/docker"
 	"suDir/src/pkg/docs"
+	"suDir/src/pkg/env"
 	"suDir/src/pkg/git"
 	"suDir/src/pkg/github"
 	"suDir/src/pkg/gomod"
@@ -115,13 +116,14 @@ func getActions(path, name string) map[string]func() {
 		"bin":       func() { appGen(&compile.Compile{}, path, name) },
 		"source":    func() { appGen(&source.Source{}, path, name) },
 		"git":       func() { appGen(&git.Git{}, path, name) },
+		"config":    func() { appGen(&config.Config{}, path, name) },
+		"env":       func() { appGen(&env.Env{}, path, name) },
 		"vscode":    func() { appGen(&vscode.Vscode{}, path, name) },
 		"github":    func() { appGen(&github.Github{}, path, name) },
 		"docker":    func() { appGen(&docker.Docker{}, path, name) },
 		"documents": func() { appGen(&docs.Docs{}, path, name) },
 		"shortcuts": func() { appGen(&shortcuts.Shortcuts{}, path, name) },
 		"assets":    func() { appGen(&assets.Assets{}, path, name) },
-		"config":    func() { appGen(&config.Config{}, path, name) },
 		"tests":     func() { appGen(&tests.Tests{}, path, name) },
 		"internal":  func() { appGen(&intern.Intern{}, path, name) },
 		"scripts":   func() { appGen(&scripts.Scripts{}, path, name) },
