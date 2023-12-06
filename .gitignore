@@ -1,0 +1,17 @@
+# Ignore everything
+*
+
+# Except for these specific files...
+!/.gitignore
+!*.go
+!go.sum
+!go.mod
+!README.md
+!LICENSE
+# !Makefile
+
+# ...even if they are in subdirectories
+!*/
+
+# But always ignore everything in the vendor directory
+/vendor/
