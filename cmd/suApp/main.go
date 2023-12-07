@@ -16,6 +16,7 @@ import (
 	"suApp/pkg/gotree"
 	"suApp/pkg/intern"
 	"suApp/pkg/license"
+	"suApp/pkg/makefile"
 	"suApp/pkg/readme"
 	"suApp/pkg/scripts"
 	"suApp/pkg/shortcuts"
@@ -74,7 +75,7 @@ func buildApp(name string, output *widget.Entry) error {
 		outputMsg("- Imports Cleared!\n")
 
 		gomod.GoModTidy(path)
-		outputMsg("- Modules tidied!\n")
+		outputMsg("- Modules Tidied!\n")
 
 		if Contains(selected, "vendor") {
 			gomod.GoModVendor(path)
@@ -120,6 +121,7 @@ func getActions(path, name string) map[string]func() {
 		"env":       &env.Env{},
 		"vscode":    &vscode.Vscode{},
 		"github":    &github.Github{},
+		"makefile":  &makefile.Makefile{},
 		"docker":    &docker.Docker{},
 		"documents": &docs.Docs{},
 		"shortcuts": &shortcuts.Shortcuts{},

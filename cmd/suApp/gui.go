@@ -25,7 +25,7 @@ func CreateWindow() {
 
 	// Define the labels for the checkboxes
 	labels := []string{
-		"app", "mod", "source", "bin", "git",
+		"app", "mod", "source", "bin", "git", "makefile",
 		"config", "env", "vscode", "github", "docker",
 		"shortcuts", "documents", "scripts", "tests",
 		"assets", "readme", "license", "internal", "vendor",
