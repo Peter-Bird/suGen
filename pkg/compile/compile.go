@@ -25,8 +25,9 @@ func (c *Compile) GetFiles(path, name string) map[string]string {
 
 func Compiler(path, name string, logger func(string)) error {
 
-	outputPath := path + "/bin/" + name
-	cmd := exec.Command("go", "build", "-o", outputPath, path)
+	inputPath := filepath.Join(path, "cmd", name)
+	outputPath := filepath.Join(path, "bin", name)
+	cmd := exec.Command("go", "build", "-o", outputPath, inputPath)
 	cmd.Dir = path
 
 	var stderr bytes.Buffer

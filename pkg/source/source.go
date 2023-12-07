@@ -7,7 +7,7 @@ type Source struct{}
 // GetDirs returns a slice of source directory paths
 func (s *Source) GetDirs(path, name string) []string {
 	return []string{
-		filepath.Join(path, "cmd"),
+		filepath.Join(path, "cmd", name),
 		filepath.Join(path, "pkg"),
 	}
 }
@@ -15,8 +15,8 @@ func (s *Source) GetDirs(path, name string) []string {
 // GetFiles returns a map of source files and functions
 func (s *Source) GetFiles(path, name string) map[string]string {
 	return map[string]string{
-		path + "/main.go": s.GenMain(),
-		path + "/gui.go":  s.GenGui(),
+		filepath.Join(path, "cmd", name, "/main.go"): s.GenMain(),
+		filepath.Join(path, "cmd", name, "/gui.go"):  s.GenGui(),
 	}
 }
 

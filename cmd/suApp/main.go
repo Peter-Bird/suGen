@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"path/filepath"
 	"suApp/pkg/app"
 	"suApp/pkg/assets"
 	"suApp/pkg/compile"
@@ -71,10 +72,12 @@ func buildApp(name string, output *widget.Entry) error {
 	execChecked(selected, actions)
 
 	if Contains(selected, "mod") {
-		gomod.GoImports(path)
+		// Added dir for GoImports after moving main.go to cmd
+		dir := filepath.Join(path, "cmd", name)
+		gomod.GoImports(dir)
 		outputMsg("- Imports Cleared!\n")
 
-		gomod.GoModTidy(path)
+		gomod.GoModTidy(dir)
 		outputMsg("- Modules Tidied!\n")
 
 		if Contains(selected, "vendor") {
