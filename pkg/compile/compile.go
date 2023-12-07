@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
-	"suDir/src/pkg/gomod"
+	"suDir/pkg/gomod"
 )
 
 type Compile struct{}

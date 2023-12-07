@@ -2,7 +2,7 @@ package vendors
 
 import (
 	"path/filepath"
-	"suDir/src/pkg/gomod"
+	"suDir/pkg/gomod"
 )
 
 type Vendors struct{}

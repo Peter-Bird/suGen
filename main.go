@@ -3,26 +3,26 @@ package main
 import (
 	"fmt"
 	"log"
-	"suDir/src/pkg/app"
-	"suDir/src/pkg/assets"
-	"suDir/src/pkg/compile"
-	"suDir/src/pkg/config"
-	"suDir/src/pkg/docker"
-	"suDir/src/pkg/docs"
-	"suDir/src/pkg/env"
-	"suDir/src/pkg/git"
-	"suDir/src/pkg/github"
-	"suDir/src/pkg/gomod"
-	"suDir/src/pkg/gotree"
-	"suDir/src/pkg/intern"
-	"suDir/src/pkg/license"
-	"suDir/src/pkg/readme"
-	"suDir/src/pkg/scripts"
-	"suDir/src/pkg/shortcuts"
-	"suDir/src/pkg/source"
-	"suDir/src/pkg/tests"
-	"suDir/src/pkg/vendors"
-	"suDir/src/pkg/vscode"
+	"suDir/pkg/app"
+	"suDir/pkg/assets"
+	"suDir/pkg/compile"
+	"suDir/pkg/config"
+	"suDir/pkg/docker"
+	"suDir/pkg/docs"
+	"suDir/pkg/env"
+	"suDir/pkg/git"
+	"suDir/pkg/github"
+	"suDir/pkg/gomod"
+	"suDir/pkg/gotree"
+	"suDir/pkg/intern"
+	"suDir/pkg/license"
+	"suDir/pkg/readme"
+	"suDir/pkg/scripts"
+	"suDir/pkg/shortcuts"
+	"suDir/pkg/source"
+	"suDir/pkg/tests"
+	"suDir/pkg/vendors"
+	"suDir/pkg/vscode"
 
 	"fyne.io/fyne/v2/widget"
 )
@@ -110,27 +110,41 @@ func Contains(slice []string, str string) bool {
 }
 
 func getActions(path, name string) map[string]func() {
-	return map[string]func(){
-		"app":       func() { appGen(&app.App{}, path, name) },
-		"mod":       func() { appGen(&gomod.Gomod{}, path, name) },
-		"bin":       func() { appGen(&compile.Compile{}, path, name) },
-		"source":    func() { appGen(&source.Source{}, path, name) },
-		"git":       func() { appGen(&git.Git{}, path, name) },
-		"config":    func() { appGen(&config.Config{}, path, name) },
-		"env":       func() { appGen(&env.Env{}, path, name) },
-		"vscode":    func() { appGen(&vscode.Vscode{}, path, name) },
-		"github":    func() { appGen(&github.Github{}, path, name) },
-		"docker":    func() { appGen(&docker.Docker{}, path, name) },
-		"documents": func() { appGen(&docs.Docs{}, path, name) },
-		"shortcuts": func() { appGen(&shortcuts.Shortcuts{}, path, name) },
-		"assets":    func() { appGen(&assets.Assets{}, path, name) },
-		"tests":     func() { appGen(&tests.Tests{}, path, name) },
-		"internal":  func() { appGen(&intern.Intern{}, path, name) },
-		"scripts":   func() { appGen(&scripts.Scripts{}, path, name) },
-		"license":   func() { appGen(&license.License{}, path, name) },
-		"readme":    func() { appGen(&readme.Readme{}, path, name) },
-		"vendor":    func() { appGen(&vendors.Vendors{}, path, name) },
+	types := map[string]interface{}{
+		"app":       &app.App{},
+		"mod":       &gomod.Gomod{},
+		"bin":       &compile.Compile{},
+		"source":    &source.Source{},
+		"git":       &git.Git{},
+		"config":    &config.Config{},
+		"env":       &env.Env{},
+		"vscode":    &vscode.Vscode{},
+		"github":    &github.Github{},
+		"docker":    &docker.Docker{},
+		"documents": &docs.Docs{},
+		"shortcuts": &shortcuts.Shortcuts{},
+		"assets":    &assets.Assets{},
+		"tests":     &tests.Tests{},
+		"internal":  &intern.Intern{},
+		"scripts":   &scripts.Scripts{},
+		"license":   &license.License{},
+		"readme":    &readme.Readme{},
+		"vendor":    &vendors.Vendors{},
 	}
+
+	actions := make(map[string]func())
+	for key, val := range types {
+		fileGenVal, ok := val.(FileGen)
+		if !ok {
+			log.Fatalf("Type for key %s does not implement FileGen interface", key)
+		}
+
+		actions[key] = func() {
+			appGen(fileGenVal, path, name)
+		}
+	}
+
+	return actions
 }
 
 func execChecked(selected []string, funcMap map[string]func()) {
