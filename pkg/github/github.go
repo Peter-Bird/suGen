@@ -4,7 +4,7 @@ import "path/filepath"
 
 type Github struct{}
 
-func (g *Github) GetDirs(path string) []string {
+func (g *Github) GetDirs(path, name string) []string {
 	return []string{
 		filepath.Join(path, ".github", "workflows"),
 		filepath.Join(path, ".github", "ISSUE_TEMPLATE"),

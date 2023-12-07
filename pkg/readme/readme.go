@@ -2,7 +2,7 @@ package readme
 
 type Readme struct{}
 
-func (r *Readme) GetDirs(path string) []string {
+func (r *Readme) GetDirs(path, name string) []string {
 	return []string{}
 }
 

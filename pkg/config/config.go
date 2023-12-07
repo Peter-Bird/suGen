@@ -4,7 +4,7 @@ import "path/filepath"
 
 type Config struct{}
 
-func (c *Config) GetDirs(path string) []string {
+func (c *Config) GetDirs(path, name string) []string {
 	return []string{
 		filepath.Join(path, "config"),
 	}

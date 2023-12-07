@@ -4,7 +4,7 @@ import "path/filepath"
 
 type Env struct{}
 
-func (e *Env) GetDirs(path string) []string {
+func (e *Env) GetDirs(path, name string) []string {
 	return []string{
 		filepath.Join(path, ".env"),
 	}

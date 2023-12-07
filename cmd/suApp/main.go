@@ -35,7 +35,7 @@ const (
 
 // main.go or a root package file
 type FileGen interface {
-	GetDirs(string) []string
+	GetDirs(string, string) []string
 	GetFiles(string, string) map[string]string
 }
 
@@ -46,7 +46,7 @@ func main() {
 // Todo: check errors on file creation
 func appGen(fileGen FileGen, path, name string) {
 
-	dirs := fileGen.GetDirs(path)
+	dirs := fileGen.GetDirs(path, name)
 	err := gotree.CreateDirs(dirs, DIRPERM, outputMsg)
 	if err != nil {
 		log.Fatalf("Failed to create directories: %v", err)

@@ -7,7 +7,7 @@ import (
 
 type Git struct{}
 
-func (g *Git) GetDirs(path string) []string {
+func (g *Git) GetDirs(path, name string) []string {
 	return []string{}
 }
 

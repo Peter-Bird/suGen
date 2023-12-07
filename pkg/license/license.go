@@ -2,7 +2,7 @@ package license
 
 type License struct{}
 
-func (l *License) GetDirs(path string) []string {
+func (l *License) GetDirs(path, name string) []string {
 	return []string{}
 }
 

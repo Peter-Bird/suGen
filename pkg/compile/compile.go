@@ -13,7 +13,7 @@ import (
 
 type Compile struct{}
 
-func (c *Compile) GetDirs(path string) []string {
+func (c *Compile) GetDirs(path, name string) []string {
 	return []string{
 		filepath.Join(path, "bin"),
 	}

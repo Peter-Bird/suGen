@@ -2,7 +2,7 @@ package docker
 
 type Docker struct{}
 
-func (d *Docker) GetDirs(path string) []string {
+func (d *Docker) GetDirs(path, name string) []string {
 	return []string{}
 }
 

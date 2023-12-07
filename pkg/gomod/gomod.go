@@ -9,7 +9,7 @@ import (
 
 type Gomod struct{}
 
-func (m *Gomod) GetDirs(path string) []string {
+func (m *Gomod) GetDirs(path, name string) []string {
 	return []string{}
 }
 

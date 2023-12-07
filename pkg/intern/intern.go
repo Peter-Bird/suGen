@@ -4,12 +4,12 @@ import "path/filepath"
 
 type Intern struct{}
 
-func (i *Intern) GetDirs(path string) []string {
+func (i *Intern) GetDirs(path, name string) []string {
 	return []string{
 		filepath.Join(path, "internal"),
 	}
 }
 
-func (i *Intern) GetFiles(dirName, name string) map[string]string {
+func (i *Intern) GetFiles(path, name string) map[string]string {
 	return map[string]string{}
 }

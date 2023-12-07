@@ -5,18 +5,18 @@ import "path/filepath"
 type Vscode struct{}
 
 // GetDirs returns a slice of vscode directory paths
-func (vs *Vscode) GetDirs(path string) []string {
+func (vs *Vscode) GetDirs(path, name string) []string {
 	return []string{
 		filepath.Join(path, ".vscode"),
 	}
 }
 
 // GetFiles returns a map of vscode files and functions
-func (vs *Vscode) GetFiles(dirName, name string) map[string]string {
+func (vs *Vscode) GetFiles(path, name string) map[string]string {
 	return map[string]string{
-		dirName + "/.vscode/settings.json": vs.genSettings(),
-		dirName + "/.vscode/launch.json":   vs.genLaunch(),
-		dirName + "/.vscode/tasks.json":    vs.genTasks(),
+		path + "/.vscode/settings.json": vs.genSettings(),
+		path + "/.vscode/launch.json":   vs.genLaunch(),
+		path + "/.vscode/tasks.json":    vs.genTasks(),
 	}
 }
 

@@ -5,7 +5,7 @@ import "path/filepath"
 type Source struct{}
 
 // GetDirs returns a slice of source directory paths
-func (s *Source) GetDirs(path string) []string {
+func (s *Source) GetDirs(path, name string) []string {
 	return []string{
 		filepath.Join(path, "cmd"),
 		filepath.Join(path, "pkg"),

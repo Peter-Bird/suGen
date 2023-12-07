@@ -10,7 +10,7 @@ import (
 
 type Assets struct{}
 
-func (a *Assets) GetDirs(path string) []string {
+func (a *Assets) GetDirs(path, name string) []string {
 	return []string{
 		filepath.Join(path, "assets"),
 	}

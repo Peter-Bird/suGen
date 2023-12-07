@@ -9,7 +9,7 @@ import (
 type Shortcuts struct{}
 
 // GetDirs returns a slice of directory paths related to shortcuts.
-func (s *Shortcuts) GetDirs(path string) []string {
+func (s *Shortcuts) GetDirs(path, name string) []string {
 	return []string{
 		filepath.Join(path, "shortcuts"),
 	}

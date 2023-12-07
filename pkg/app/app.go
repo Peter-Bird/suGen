@@ -4,7 +4,7 @@ import "path/filepath"
 
 type App struct{}
 
-func (a *App) GetDirs(path string) []string {
+func (a *App) GetDirs(path, name string) []string {
 	return []string{
 		filepath.Join(path, ""),
 	}
