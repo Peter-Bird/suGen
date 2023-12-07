@@ -7,8 +7,8 @@ type Source struct{}
 // GetDirs returns a slice of source directory paths
 func (s *Source) GetDirs(path string) []string {
 	return []string{
-		filepath.Join(path, "src", "cmd"),
-		filepath.Join(path, "src", "pkg", "yourlocalpackage"),
+		filepath.Join(path, "cmd"),
+		filepath.Join(path, "pkg"),
 	}
 }
 

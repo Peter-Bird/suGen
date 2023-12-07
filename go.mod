@@ -1,4 +1,4 @@
-module suDir
+module suApp
 
 go 1.21.4
 
