@@ -2,6 +2,7 @@
 *
 
 # Except for these specific files...
+!/.github/
 !/.gitignore
 !*.go
 !go.sum
