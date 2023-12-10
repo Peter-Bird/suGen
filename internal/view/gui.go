@@ -1,4 +1,4 @@
-package main
+package view
 
 import (
 	"fyne.io/fyne/v2"
@@ -7,10 +7,16 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-var checkboxes []*widget.Check
+const (
+	ID = "Peter-Bird"
+)
+
+type View struct{}
+
+var Checkboxes []*widget.Check
 var outputEntry *widget.Entry
 
-func CreateWindow() {
+func (v *View) CreateWindow(callback func(string, *widget.Entry) error) {
 	myApp := app.NewWithID(ID)
 	myWin := myApp.NewWindow("Create Application")
 
@@ -40,7 +46,7 @@ func CreateWindow() {
 		if i < 4 {
 			checkbox.Checked = true
 		}
-		checkboxes = append(checkboxes, checkbox)
+		Checkboxes = append(Checkboxes, checkbox)
 		checkboxGrid.Add(checkbox)
 	}
 
@@ -49,7 +55,7 @@ func CreateWindow() {
 	outputEntry.SetMinRowsVisible(16)
 
 	startButton := widget.NewButton("Generate", func() {
-		go buildApp(nameEntry.Text, outputEntry)
+		go callback(nameEntry.Text, outputEntry)
 	})
 
 	// Setting up a key listener for the nameEntry
@@ -70,7 +76,7 @@ func CreateWindow() {
 	myWin.ShowAndRun()
 }
 
-func getSelectedCheckboxes(checkboxes []*widget.Check) []string {
+func (v *View) GetSelectedCheckboxes(checkboxes []*widget.Check) []string {
 	var selected []string
 	for _, checkbox := range checkboxes {
 		if checkbox.Checked {
@@ -80,6 +86,6 @@ func getSelectedCheckboxes(checkboxes []*widget.Check) []string {
 	return selected
 }
 
-func outputMsg(txt string) {
+func (v *View) OutputMsg(txt string) {
 	outputEntry.Append(txt)
 }
