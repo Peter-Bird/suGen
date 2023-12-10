@@ -1,0 +1,39 @@
+# CODEOWNERS file for a Golang project using Fyne and MongoDB
+# Owners are automatically requested for review on pull requests that modify code they own.
+
+# Default owner for everything in the repo
+*       @default-owner
+
+# Golang backend code
+/backend/                       @backend-team
+/backend/**/*.go                @go-developers
+
+# Fyne GUI code
+/gui/                           @frontend-team
+/gui/**/*.go                    @fyne-team
+
+# MongoDB related scripts and configurations
+/database/                      @database-team
+/**/*.bson                      @mongo-experts
+/**/*.mongo                     @mongo-experts
+
+# CI/CD Pipeline configurations
+/.github/workflows/             @devops-team
+
+# Docker configurations
+/Dockerfile                     @devops-team
+/docker-compose.yml             @devops-team
+
+# Documentation
+/docs/                          @documentation-team
+
+# Test files
+/**/*._test.go                  @quality-assurance
+
+# Specific file patterns
+/go.mod                         @dependency-managers
+/go.sum                         @dependency-managers
+
+# Assign a team to review changes in the project's README and LICENSE files
+/README.md                      @project-managers
+/LICENSE                        @legal-team
