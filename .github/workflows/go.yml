@@ -19,5 +19,10 @@ jobs:
       with:
         go-version: '1.21.4'  # The Go version to download (if necessary) and use.
 
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libxcursor-dev
+
     - name: Build
       run: go build -v ./...
